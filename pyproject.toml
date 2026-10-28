@@ -203,3 +203,12 @@ filterwarnings = [
 ]
 python_functions = "test_* populate_source_schema"
 addopts = "--ignore tests_metricflow/performance/"
+
+# The fork is consumed as two git dependencies (root `metricflow` and
+# `dbt-metricflow`). Declaring them as one workspace lets uv build the CLI
+# against this checkout instead of the PyPI release.
+[tool.uv.workspace]
+members = ["dbt-metricflow"]
+
+[tool.uv.sources]
+metricflow = { workspace = true }
