@@ -17,6 +17,7 @@ from metricflow.protocols.sql_client import SqlEngine
 from metricflow.sql.render.athena import AthenaSqlPlanRenderer
 from metricflow.sql.render.big_query import BigQuerySqlPlanRenderer
 from metricflow.sql.render.databricks import DatabricksSqlPlanRenderer
+from metricflow.sql.render.doris import DorisSqlPlanRenderer
 from metricflow.sql.render.duckdb_renderer import DuckDbSqlPlanRenderer
 from metricflow.sql.render.postgres import PostgresSQLSqlPlanRenderer
 from metricflow.sql.render.redshift import RedshiftSqlPlanRenderer
@@ -52,6 +53,7 @@ class SupportedAdapterTypes(enum.Enum):
     DUCKDB = "duckdb"
     TRINO = "trino"
     VERTICA = "vertica"
+    DORIS = "doris"
 
     @property
     def sql_engine_type(self) -> SqlEngine:
@@ -74,6 +76,8 @@ class SupportedAdapterTypes(enum.Enum):
             return SqlEngine.TRINO
         elif self is SupportedAdapterTypes.VERTICA:
             return SqlEngine.VERTICA
+        elif self is SupportedAdapterTypes.DORIS:
+            return SqlEngine.DORIS
         else:
             assert_values_exhausted(self)
 
@@ -98,6 +102,8 @@ class SupportedAdapterTypes(enum.Enum):
             return TrinoSqlPlanRenderer()
         elif self is SupportedAdapterTypes.VERTICA:
             return VerticaSqlPlanRenderer()
+        elif self is SupportedAdapterTypes.DORIS:
+            return DorisSqlPlanRenderer()
         else:
             assert_values_exhausted(self)
 

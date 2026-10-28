@@ -27,6 +27,7 @@ class SqlEngine(Enum):
     TRINO = "Trino"
     VERTICA = "Vertica"
     ATHENA = "Athena"
+    DORIS = "Doris"
 
     @property
     def unsupported_granularities(self) -> Set[TimeGranularity]:
@@ -56,6 +57,9 @@ class SqlEngine(Enum):
             return {TimeGranularity.NANOSECOND}
         elif self is SqlEngine.ATHENA:
             return {TimeGranularity.NANOSECOND, TimeGranularity.MICROSECOND}
+        elif self is SqlEngine.DORIS:
+            # DATE_TRUNC accepts year|quarter|month|week|day|hour|minute|second only.
+            return {TimeGranularity.NANOSECOND, TimeGranularity.MICROSECOND, TimeGranularity.MILLISECOND}
         else:
             assert_values_exhausted(self)
 
